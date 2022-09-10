@@ -1,4 +1,5 @@
 import { AspectRatio, Badge, Image, Link, Stack, Text } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 
 import { PokemonItemType } from "../../@types";
 import { getOfficialArtwork } from "../../utils";
@@ -9,10 +10,11 @@ type PokemonCardProps = Pick<PokemonItemType, "id" | "name" | "types">;
 function PokemonCard({ id, name, types }: PokemonCardProps) {
   return (
     <Link
-      href={"/pokemon/" + name}
+      as={RouterLink}
       backgroundColor="gray.50"
-      p="3"
       borderRadius="xl"
+      p="3"
+      to={"/pokemon/" + name}
       _focusVisible={{
         boxShadow: "outline",
         transform: "scale(105%)",

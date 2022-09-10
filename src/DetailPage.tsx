@@ -144,15 +144,15 @@ function DetailPage() {
             </Heading>
             <Stack
               alignItems="center"
-              direction="row"
-              divider={<Icon as={BsArrowRight} width="8" border="none" />}
-              overflowX="auto"
-              p="3"
-              width="full"
-              flexWrap="nowrap"
               border="1px"
               borderColor="gray.300"
               borderRadius="2xl"
+              direction="row"
+              divider={<Icon as={BsArrowRight} width="8" border="none" />}
+              flexWrap="nowrap"
+              overflowX="auto"
+              p="3"
+              width="full"
             >
               {[...new Array(8)].map((_, i) => (
                 <Box

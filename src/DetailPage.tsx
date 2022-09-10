@@ -9,6 +9,7 @@ import {
   IconButton,
   Image,
   Progress,
+  Skeleton,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -26,6 +27,9 @@ function DetailPage() {
   // FIXME: get data from PokeAPI
   const DUMMY_TYPES = ["grass", "fire"];
   const DUMMY_ID = "1";
+  const loading = false;
+
+  if (loading) return <DetailPageSkeleton />;
 
   return (
     <>
@@ -50,7 +54,7 @@ function DetailPage() {
             />
           </Box>
           <Box mt="auto" w="full">
-            <Stack direction="row">
+            <Stack direction="row" mb="2">
               {DUMMY_TYPES.map((typeName, i) => (
                 <Badge colorScheme="teal" key={i}>
                   {typeName}
@@ -74,6 +78,7 @@ function DetailPage() {
             alt={name}
             fallbackSrc={PokemonFallbackImg}
             ml="4"
+            objectFit="contain"
             src={getOfficialArtwork(DUMMY_ID)}
             _hover={{
               transitionPoperty: "transform",
@@ -147,14 +152,16 @@ function DetailPage() {
               border="1px"
               borderColor="gray.300"
               borderRadius="2xl"
+              display="inline-flex"
               direction="row"
               divider={<Icon as={BsArrowRight} width="8" border="none" />}
               flexWrap="nowrap"
+              maxWidth="full"
               overflowX="auto"
               p="3"
-              width="full"
+              width="auto"
             >
-              {[...new Array(8)].map((_, i) => (
+              {[...new Array(5)].map((_, i) => (
                 <Box
                   display="flex"
                   flexGrow={0}
@@ -174,3 +181,114 @@ function DetailPage() {
 }
 
 export default DetailPage;
+
+function DetailPageSkeleton() {
+  return (
+    <>
+      <Box as="header" bgColor="gray.100" height="48">
+        <Container
+          height="full"
+          display="flex"
+          justifyContent="space-between"
+          py="3"
+        >
+          <Box position="relative">
+            <IconButton
+              aria-label="Back to home"
+              as={Link}
+              colorScheme="teal"
+              icon={<FaArrowLeft />}
+              position="absolute"
+              top="0"
+              left="0"
+              size="sm"
+              to="/"
+            />
+          </Box>
+          <Box mt="auto" w="full">
+            <Skeleton width="20" height="3" mb="2" />
+            <Skeleton width="60" height="8" mb="1" />
+            <Skeleton width="10" height="4" mb="1" />
+          </Box>
+          <Image
+            src={PokemonFallbackImg}
+            ml="4"
+            objectFit="contain"
+            _hover={{
+              transitionPoperty: "transform",
+              transitionDuration: "normal",
+              transform: "scale(105%) rotate(5deg)",
+            }}
+          />
+        </Container>
+      </Box>
+      <Container as="main" py="8">
+        <Grid gap="6" gridTemplateColumns="1fr 1fr" width="100%">
+          <GridItem as="section" colSpan={2} maxWidth="full">
+            <Skeleton w="24" height="4" mb="2" />
+            <Skeleton w="full" height="3" mb="1" />
+            <Skeleton w="full" height="3" mb="1" />
+            <Skeleton w="full" height="3" mb="1" />
+            <Skeleton w="40" height="3" mb="1" />
+          </GridItem>
+          <GridItem as="section" maxWidth="full">
+            <Skeleton w="24" height="4" mb="2" />
+            <Skeleton w="full" height="3" mb="1" />
+          </GridItem>
+          <GridItem as="section" maxWidth="full">
+            <Skeleton w="24" height="4" mb="2" />
+            <Skeleton w="full" height="3" mb="1" />
+          </GridItem>
+          <GridItem as="section" maxWidth="full">
+            <Skeleton w="24" height="4" mb="2" />
+            <Skeleton w="full" height="3" mb="1" />
+          </GridItem>
+          <GridItem as="section" maxWidth="full">
+            <Skeleton w="24" height="4" mb="2" />
+            <Skeleton w="full" height="3" mb="1" />
+          </GridItem>
+          <GridItem as="section" colSpan={2} maxWidth="full">
+            <Skeleton w="24" height="4" mb="2" />
+            <Grid gridTemplateColumns="repeat(2, 1fr)" rowGap={3} columnGap={6}>
+              {[...new Array(8)].map((_, i) => (
+                <GridItem key={i}>
+                  <Skeleton w="20" height="3" mb="1" />
+                  <Skeleton w="full" height="2" mb="1" />
+                </GridItem>
+              ))}
+            </Grid>
+          </GridItem>
+          <GridItem as="section" colSpan={2} maxWidth="full">
+            <Skeleton w="24" height="4" mb="2" />
+
+            <Stack
+              alignItems="center"
+              border="1px"
+              borderColor="gray.300"
+              borderRadius="2xl"
+              direction="row"
+              display="inline-flex"
+              divider={<Icon as={BsArrowRight} width="8" border="none" />}
+              flexWrap="nowrap"
+              maxWidth="full"
+              overflowX="auto"
+              p="3"
+              width="auto"
+            >
+              {[...new Array(3)].map((_, i) => (
+                <Skeleton
+                  borderRadius="lg"
+                  display="flex"
+                  flexGrow={0}
+                  flexShrink={0}
+                  height={36}
+                  width={32}
+                />
+              ))}
+            </Stack>
+          </GridItem>
+        </Grid>
+      </Container>
+    </>
+  );
+}

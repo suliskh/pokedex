@@ -5,9 +5,21 @@ import { PokemonItemType } from "../../@types";
 import { getOfficialArtwork } from "../../utils";
 import PokemonFallbackImg from "../../assets/pokemon-fallback-img.png";
 
-type PokemonCardProps = Pick<PokemonItemType, "id" | "name" | "types">;
+type PokemonCardProps = Pick<PokemonItemType, "id" | "name"> & {
+  types?: Array<string>;
+  variant?: VariantType;
+};
 
-function PokemonCard({ id, name, types }: PokemonCardProps) {
+type VariantType = "normal" | "compact";
+
+function PokemonCard({
+  id,
+  name,
+  types,
+  variant = "normal",
+}: PokemonCardProps) {
+  const isNormalVariant = variant === "normal";
+
   return (
     <Link
       as={RouterLink}
@@ -21,7 +33,7 @@ function PokemonCard({ id, name, types }: PokemonCardProps) {
       }}
       _hover={{ textDecoration: "none", transform: "scale(105%)" }}
     >
-      <AspectRatio mb="3" ratio={1}>
+      <AspectRatio mb={isNormalVariant ? "3" : "1"} ratio={1}>
         <Image
           alt={name}
           fallbackSrc={PokemonFallbackImg}
@@ -29,21 +41,29 @@ function PokemonCard({ id, name, types }: PokemonCardProps) {
         />
       </AspectRatio>
       <Text
-        fontWeight="bold"
+        fontSize={isNormalVariant ? "base" : "sm"}
+        fontWeight={isNormalVariant ? "bold" : "normal"}
         noOfLines={2}
         overflowWrap="anywhere"
+        textAlign={isNormalVariant ? "left" : "center"}
         textTransform="capitalize"
       >
         {name}
       </Text>
-      <Text textTransform="capitalize" color="gray.600" fontSize="sm">
-        #{id}
-      </Text>
-      <Stack direction="row">
-        {types.map((typeName, i) => (
-          <Badge key={i}>{typeName}</Badge>
-        ))}
-      </Stack>
+      {isNormalVariant && (
+        <Text textTransform="capitalize" color="gray.600" fontSize="sm">
+          #{id}
+        </Text>
+      )}
+      {isNormalVariant && types && types.length > 0 && (
+        <Stack direction="row">
+          {types.map((typeName, i) => (
+            <Badge colorScheme="teal" key={i}>
+              {typeName}
+            </Badge>
+          ))}
+        </Stack>
+      )}
     </Link>
   );
 }

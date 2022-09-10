@@ -18,7 +18,7 @@ function Header() {
         justifyContent="space-between"
       >
         <Heading as="h1" size="lg">
-          Pokedex
+          Pokédex
         </Heading>
         <Button rightIcon={<FaFilter />}>Filter</Button>
       </Container>

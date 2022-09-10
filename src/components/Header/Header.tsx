@@ -17,10 +17,12 @@ function Header() {
         height="14"
         justifyContent="space-between"
       >
-        <Heading as="h1" size="lg">
+        <Heading as="h1" size="lg" color="teal">
           Pokédex
         </Heading>
-        <Button rightIcon={<FaFilter />}>Filter</Button>
+        <Button colorScheme="teal" rightIcon={<FaFilter />} size="sm">
+          Filter
+        </Button>
       </Container>
     </Box>
   );

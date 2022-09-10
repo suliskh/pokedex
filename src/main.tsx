@@ -5,17 +5,20 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import DetailPage from "./DetailPage";
 import HomePage from "./HomePage";
+import GraphQLProvider from "./providers/GraphQLProvider";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/pokemon" element={<HomePage />} />
-          <Route path="/pokemon/:name" element={<DetailPage />} />
-        </Routes>
-      </BrowserRouter>
+      <GraphQLProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/pokemon" element={<HomePage />} />
+            <Route path="/pokemon/:name" element={<DetailPage />} />
+          </Routes>
+        </BrowserRouter>
+      </GraphQLProvider>
     </ChakraProvider>
   </React.StrictMode>
 );

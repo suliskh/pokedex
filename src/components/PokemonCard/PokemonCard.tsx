@@ -25,7 +25,7 @@ function PokemonCard({
       as={RouterLink}
       backgroundColor="gray.50"
       borderRadius="xl"
-      p="3"
+      p={isNormalVariant ? "3" : "2"}
       to={"/pokemon/" + name}
       _focusVisible={{
         boxShadow: "outline",

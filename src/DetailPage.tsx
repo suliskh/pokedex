@@ -84,8 +84,8 @@ function DetailPage() {
         </Container>
       </Box>
       <Container as="main" py="8">
-        <Grid gap="6" gridTemplateColumns="1fr 1fr">
-          <GridItem as="section" colSpan={2}>
+        <Grid gap="6" gridTemplateColumns="1fr 1fr" width="100%">
+          <GridItem as="section" colSpan={2} maxWidth="full">
             <Heading as="h3" mb="1" size="sm">
               Description
             </Heading>
@@ -94,31 +94,31 @@ function DetailPage() {
               bud on its back grow larger.
             </Text>
           </GridItem>
-          <GridItem as="section">
+          <GridItem as="section" maxWidth="full">
             <Heading as="h3" mb="1" size="sm">
               Height
             </Heading>
             <Text color="gray.800">3' 30"</Text>
           </GridItem>
-          <GridItem as="section">
+          <GridItem as="section" maxWidth="full">
             <Heading as="h3" mb="1" size="sm">
               Weight
             </Heading>
             <Text color="gray.800">431 lbs</Text>
           </GridItem>
-          <GridItem as="section">
+          <GridItem as="section" maxWidth="full">
             <Heading as="h3" mb="1" size="sm">
               Gender
             </Heading>
             <Text color="gray.800">Male (45%), Female (55%)</Text>
           </GridItem>
-          <GridItem as="section">
+          <GridItem as="section" maxWidth="full">
             <Heading as="h3" mb="1" size="sm">
               Abilities
             </Heading>
             <Text color="gray.800">Punch, Bloren, Sabal</Text>
           </GridItem>
-          <GridItem as="section" colSpan={2}>
+          <GridItem as="section" colSpan={2} maxWidth="full">
             <Heading as="h3" mb="3" size="sm">
               Stats
             </Heading>
@@ -138,7 +138,7 @@ function DetailPage() {
               ))}
             </Grid>
           </GridItem>
-          <GridItem as="section" colSpan={2}>
+          <GridItem as="section" colSpan={2} maxWidth="full">
             <Heading as="h3" mb="3" size="sm">
               Evolutions
             </Heading>

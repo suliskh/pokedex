@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { FaFilter } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import {
   useDisclosure,
   Box,
@@ -19,32 +20,48 @@ import {
   Heading,
 } from "@chakra-ui/react";
 
+import { GET_ARGS_QUERY } from "../../queries";
+import { OptionType } from "../../@types";
+
 function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // FIXME: fetch options from PokeAPI
-  const typeOptions: Array<string> = [
-    "grass",
-    "fire",
-    "water",
-    "thunder",
-    "other",
-    "merdeka",
-    "tuwa",
-    "indone",
-    "asde",
-  ];
-  const generationOptions: Array<string> = [
-    "generation-i",
-    "generation-ii",
-    "generation-iii",
-    "generation-iv",
-    "generation-v",
-    "generation-vi",
-    "generation-vii",
-  ];
+  const { data } = useQuery(GET_ARGS_QUERY);
 
+  const {
+    types,
+    generations,
+  }: {
+    types: Array<OptionType>;
+    generations: Array<OptionType>;
+  } = useMemo(() => {
+    let types: Array<OptionType> = [];
+    let generations: Array<OptionType> = [];
+
+    if (data?.types) {
+      types = data.types.map((item: { id: string; name: string }) => ({
+        label: item.name,
+        value: item.name,
+      }));
+    }
+
+    if (data?.generations) {
+      generations = data.generations.map(
+        (item: {
+          name: string;
+          generation_names: Array<{ name: string }>;
+        }) => ({
+          label: item.generation_names[0]?.name,
+          value: item.name,
+        })
+      );
+    }
+
+    return { types, generations };
+  }, [data]);
+
+  console.log(generations);
   const handleApply = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -57,8 +74,8 @@ function Header() {
     onClose();
   };
 
-  const selectedTypes = searchParams.getAll("types");
-  const selectedGenerations = searchParams.getAll("generations");
+  const selectedTypes = searchParams.getAll("types") || [];
+  const selectedGenerations = searchParams.getAll("generations") || [];
 
   return (
     <>
@@ -102,16 +119,15 @@ function Header() {
                     gridTemplateColumns="repeat(3, 1fr)"
                     rowGap="2"
                   >
-                    {typeOptions.map((typeName, i) => (
+                    {types.map(({ label, value }) => (
                       <Checkbox
-                        key={typeName + i}
+                        key={value}
                         name="types"
                         overflowWrap="anywhere"
                         textTransform="capitalize"
-                        value={typeName}
-                        checked={true}
+                        value={value}
                       >
-                        {typeName}
+                        {label}
                       </Checkbox>
                     ))}
                   </Grid>
@@ -127,15 +143,17 @@ function Header() {
                     gridTemplateColumns="repeat(2, 1fr)"
                     rowGap="2"
                   >
-                    {generationOptions.map((generationName, i) => (
-                      <Checkbox
-                        key={generationName + i}
-                        name="generations"
-                        overflowWrap="anywhere"
-                        textTransform="uppercase"
-                        value={generationName}
-                      >
-                        {generationName}
+                    {generations.map(({ label, value }) => (
+                      // <Checkbox
+                      //   key={value}
+                      //   name="generations"
+                      //   overflowWrap="anywhere"
+                      //   value={value}
+                      // >
+                      //   {label}
+                      // </Checkbox>
+                      <Checkbox key={value} name="generations" value={label}>
+                        {label}
                       </Checkbox>
                     ))}
                   </Grid>

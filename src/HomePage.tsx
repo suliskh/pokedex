@@ -2,35 +2,46 @@ import React, { useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import { Container, Grid, Heading, Skeleton } from "@chakra-ui/react";
 import { InView } from "react-intersection-observer";
+import { useSearchParams } from "react-router-dom";
 
 import Header from "./components/Header/Header";
 import PokemonCard from "./components/PokemonCard";
 
-import { GET_POKEMONS_QUERY } from "./queries";
+import { generateGetPokemonsQueryArgs, GET_POKEMONS_QUERY } from "./queries";
 import { PokemonItemType } from "./@types";
 
 const LIMIT = 15;
 
 function HomePage() {
+  const [searchParams] = useSearchParams();
   const { loading, data, fetchMore } = useQuery(GET_POKEMONS_QUERY, {
     variables: {
       offset: 0,
       limit: LIMIT,
+      args: generateGetPokemonsQueryArgs({
+        types: searchParams.getAll("types"),
+      }),
     },
     notifyOnNetworkStatusChange: true,
   });
 
-  const pokemons: Array<PokemonItemType> = useMemo(() => {
-    return (
-      data?.species?.map(({ id, name, pokemonTypes }: any) => ({
+  const {
+    pokemons,
+    dataCount,
+  }: { pokemons: Array<PokemonItemType>; dataCount: number } = useMemo(() => {
+    const pokemons =
+      data?.species?.map(({ id, name, pokemons }: any) => ({
         id,
         name,
         types:
-          (pokemonTypes &&
-            pokemonTypes[0].types?.map((item: any) => item.name)) ||
+          (pokemons &&
+            pokemons[0].types?.map((item: any) => item?.pokemonType?.name)) ||
           [],
-      })) || []
-    );
+      })) || [];
+
+    const dataCount = data?.species_aggregate.aggregate.count || 0;
+
+    return { pokemons, dataCount };
   }, [data]);
 
   return (
@@ -39,7 +50,7 @@ function HomePage() {
 
       <Container as="main" py="6">
         <Heading textAlign="center" size="xs" mb="6">
-          Showing 40 Pokemons
+          Showing {dataCount} Pokemons
         </Heading>
 
         <Grid
@@ -61,7 +72,11 @@ function HomePage() {
       <InView
         style={{ height: "1px" }}
         onChange={async (inView) => {
-          if (inView && !loading) {
+          const displayedPokemonsCount = data?.species?.length;
+          const shouldFetchMore =
+            inView && !loading && displayedPokemonsCount < dataCount;
+
+          if (shouldFetchMore) {
             await fetchMore({
               variables: {
                 offset: data?.species?.length || 0,

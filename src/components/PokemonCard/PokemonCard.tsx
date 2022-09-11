@@ -1,11 +1,11 @@
 import { AspectRatio, Badge, Image, Link, Stack, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
-import { PokemonItemType } from "../../@types";
+import { PokemonType } from "../../@types";
 import { getOfficialArtwork } from "../../utils";
 import PokemonFallbackImg from "../../assets/pokemon-fallback-img.png";
 
-type PokemonCardProps = Pick<PokemonItemType, "id" | "name"> & {
+type PokemonCardProps = Pick<PokemonType, "id" | "name"> & {
   types?: Array<string>;
   variant?: VariantType;
 };

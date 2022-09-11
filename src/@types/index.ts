@@ -1,8 +1,16 @@
-export type PokemonItemType = {
+export type PokemonType = {
+  abilities: Array<string>;
+  color: string;
+  description: string;
+  evolutions: Array<{ id: string; name: string }>;
+  gender: { male: string; female: string };
+  generationName: string;
+  height: string;
   id: string;
   name: string;
-  color: string;
+  stats: Array<{ label: string; value: string }>;
   types: Array<string>;
+  weight: string;
 };
 
 export type OptionType = {

@@ -16,7 +16,9 @@ export function generateGetPokemonsQueryArgs(args: {
       },
       pokemon_v2_pokemonspecy: {
         pokemon_v2_generation:
-          args.generations.length > 0 ? { name: { _in: args.generations } } : {},
+          args.generations.length > 0
+            ? { name: { _in: args.generations } }
+            : {},
       },
     },
   };
@@ -67,6 +69,67 @@ export const GET_ARGS_QUERY = gql`
         where: { pokemon_v2_language: { name: { _eq: "en" } } }
         limit: 1
       ) {
+        name
+      }
+    }
+  }
+`;
+
+export const GET_POKEMON_QUERY = gql`
+  query GetPokemonQuery($name: String!) {
+    species: pokemon_v2_pokemonspecies(where: { name: { _eq: $name } }) {
+      species_descriptions: pokemon_v2_pokemonspeciesflavortexts(
+        where: { pokemon_v2_language: { name: { _eq: "en" } } }
+        limit: 1
+      ) {
+        flavor_text
+      }
+      pokemons: pokemon_v2_pokemons(where: { name: { _eq: $name } }, limit: 1) {
+        height
+        name
+        id
+        weight
+        types: pokemon_v2_pokemontypes {
+          pokemonType: pokemon_v2_type {
+            name
+          }
+        }
+        abilities: pokemon_v2_pokemonabilities {
+          ability: pokemon_v2_ability {
+            name
+          }
+        }
+      }
+      generation: pokemon_v2_generation {
+        names: pokemon_v2_generationnames(
+          where: { pokemon_v2_language: { name: { _eq: "en" } } }
+        ) {
+          name
+        }
+      }
+    }
+    stats: pokemon_v2_pokemonstat(
+      where: { pokemon_v2_pokemon: { name: { _eq: $name } } }
+    ) {
+      base_stat
+      stat: pokemon_v2_stat {
+        name
+      }
+    }
+    colors: pokemon_v2_pokemoncolor(
+      where: {
+        pokemon_v2_pokemonspecies: {
+          pokemon_v2_pokemons: { name: { _eq: $name } }
+        }
+      }
+    ) {
+      name
+    }
+    evolutions: pokemon_v2_evolutionchain(
+      where: { pokemon_v2_pokemonspecies: { name: { _eq: $name } } }
+    ) {
+      species: pokemon_v2_pokemonspecies {
+        id
         name
       }
     }

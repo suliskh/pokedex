@@ -8,7 +8,7 @@ import Header from "./components/Header/Header";
 import PokemonCard from "./components/PokemonCard";
 
 import { generateGetPokemonsQueryArgs, GET_POKEMONS_QUERY } from "./queries";
-import { PokemonItemType } from "./@types";
+import { PokemonType } from "./@types";
 
 const LIMIT = 15;
 
@@ -29,7 +29,10 @@ function HomePage() {
   const {
     pokemons,
     dataCount,
-  }: { pokemons: Array<PokemonItemType>; dataCount: number } = useMemo(() => {
+  }: {
+    pokemons: Array<Pick<PokemonType, "id" | "name" | "types">>;
+    dataCount: number;
+  } = useMemo(() => {
     const pokemons =
       data?.species?.map(({ id, name, pokemons }: any) => ({
         id,

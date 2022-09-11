@@ -12,7 +12,8 @@ const client = new ApolloClient({
            * Enable offset-based pagination strategy by generating a field policy
            * Ref: https://www.apollographql.com/docs/react/pagination/offset-based#the-offsetlimitpagination-helper
            */
-          pokemon_v2_pokemonspecies: offsetLimitPagination([]),
+          pokemon_v2_pokemonspecies: offsetLimitPagination(["where"]),
+          pokemon_v2_pokemons: offsetLimitPagination(["name"]),
         },
       },
     },

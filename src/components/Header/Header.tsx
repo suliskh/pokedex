@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import {
   useDisclosure,
+  Badge,
   Box,
   Button,
   Checkbox,
@@ -75,6 +76,7 @@ function Header() {
 
   const selectedTypes = searchParams.getAll("types") || [];
   const selectedGenerations = searchParams.getAll("generations") || [];
+  const filterCount = selectedTypes.length + selectedGenerations.length;
 
   return (
     <>
@@ -95,8 +97,13 @@ function Header() {
           <Heading as="h1" size="lg" color="teal">
             Pokédex
           </Heading>
-          <Button rightIcon={<FaFilter />} size="sm" onClick={onOpen}>
-            Filter
+          <Button leftIcon={<FaFilter />} size="sm" onClick={onOpen}>
+            <Box>Filter</Box>
+            {filterCount > 0 && (
+              <Badge colorScheme="teal" ml="2">
+                {filterCount}
+              </Badge>
+            )}
           </Button>
         </Container>
       </Box>

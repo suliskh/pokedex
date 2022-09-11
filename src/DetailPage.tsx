@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { BsArrowRight } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa";
@@ -27,7 +27,9 @@ import { GET_POKEMON_QUERY } from "./queries";
 import { PokemonType } from "./@types";
 
 function DetailPage() {
-  let { name } = useParams();
+  const { name } = useParams();
+  const navigate = useNavigate();
+  
   const { loading, data } = useQuery(GET_POKEMON_QUERY, {
     variables: { name },
   });
@@ -81,13 +83,12 @@ function DetailPage() {
           <Box position="relative">
             <IconButton
               aria-label="Back to home"
-              as={Link}
               icon={<FaArrowLeft />}
               position="absolute"
               top="0"
               left="0"
               size="sm"
-              to="/"
+              onClick={() => navigate(-1)}
             />
           </Box>
           <Box mt="auto" w="full">
@@ -218,6 +219,8 @@ function DetailPage() {
 export default DetailPage;
 
 function DetailPageSkeleton() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Box as="header" bgColor="gray.100" height="48">
@@ -230,13 +233,12 @@ function DetailPageSkeleton() {
           <Box position="relative">
             <IconButton
               aria-label="Back to home"
-              as={Link}
               icon={<FaArrowLeft />}
               position="absolute"
               top="0"
               left="0"
               size="sm"
-              to="/"
+              onClick={() => navigate(-1)}
             />
           </Box>
           <Box mt="auto" w="full">

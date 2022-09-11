@@ -1,8 +1,7 @@
 import { useMemo } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { BsArrowRight } from "react-icons/bs";
-import { FaArrowLeft } from "react-icons/fa";
 import {
   Badge,
   Box,
@@ -20,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 
 import PokemonCard from "./components/PokemonCard";
+import BackButton from "./components/BackButton";
 
 import { getOfficialArtwork } from "./utils";
 import PokemonFallbackImg from "./assets/pokemon-fallback-img.png";
@@ -28,7 +28,6 @@ import { PokemonType } from "./@types";
 
 function DetailPage() {
   const { name } = useParams();
-  const navigate = useNavigate();
 
   const { loading, data } = useQuery(GET_POKEMON_QUERY, {
     variables: { name },
@@ -80,14 +79,12 @@ function DetailPage() {
           py="3"
         >
           <Box position="relative">
-            <IconButton
+            <BackButton
               aria-label="Back to home"
-              icon={<FaArrowLeft />}
               position="absolute"
+              size="sm"
               top="0"
               left="0"
-              size="sm"
-              onClick={() => navigate(-1)}
             />
           </Box>
           <Box mt="auto" w="full">
@@ -213,8 +210,6 @@ function DetailPage() {
 export default DetailPage;
 
 function DetailPageSkeleton() {
-  const navigate = useNavigate();
-
   return (
     <>
       <Box as="header" bgColor="gray.100" height="48">
@@ -225,14 +220,12 @@ function DetailPageSkeleton() {
           py="3"
         >
           <Box position="relative">
-            <IconButton
+            <BackButton
               aria-label="Back to home"
-              icon={<FaArrowLeft />}
               position="absolute"
+              size="sm"
               top="0"
               left="0"
-              size="sm"
-              onClick={() => navigate(-1)}
             />
           </Box>
           <Box mt="auto" w="full">

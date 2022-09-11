@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import { Container, Grid, Heading, Skeleton } from "@chakra-ui/react";
+import { InView } from "react-intersection-observer";
 
 import Header from "./components/Header/Header";
 import PokemonCard from "./components/PokemonCard";
@@ -11,7 +12,7 @@ import { PokemonItemType } from "./@types";
 const LIMIT = 15;
 
 function HomePage() {
-  const { loading, data } = useQuery(GET_POKEMONS_QUERY, {
+  const { loading, data, fetchMore } = useQuery(GET_POKEMONS_QUERY, {
     variables: {
       offset: 0,
       limit: LIMIT,
@@ -45,20 +46,30 @@ function HomePage() {
           gap={6}
           templateColumns={{ base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)" }}
         >
-          {loading ? (
-            <PokemonListSkeleton />
-          ) : (
-            pokemons.map((pokemon) => (
-              <PokemonCard
-                id={pokemon.id}
-                key={pokemon.id}
-                name={pokemon.name}
-                types={pokemon.types}
-              />
-            ))
-          )}
+          {pokemons.map((pokemon) => (
+            <PokemonCard
+              id={pokemon.id}
+              key={pokemon.id}
+              name={pokemon.name}
+              types={pokemon.types}
+            />
+          ))}
+
+          {loading && <PokemonListSkeleton />}
         </Grid>
       </Container>
+      <InView
+        style={{ height: "1px" }}
+        onChange={async (inView) => {
+          if (inView && !loading) {
+            await fetchMore({
+              variables: {
+                offset: data?.species?.length || 0,
+              },
+            });
+          }
+        }}
+      />
     </React.Fragment>
   );
 }

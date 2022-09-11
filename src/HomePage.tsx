@@ -1,12 +1,36 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { useQuery } from "@apollo/client";
 import { Container, Grid, Heading, Skeleton } from "@chakra-ui/react";
 
 import Header from "./components/Header/Header";
 import PokemonCard from "./components/PokemonCard";
 
+import { GET_POKEMONS_QUERY } from "./queries";
+import { PokemonItemType } from "./@types";
+
+const LIMIT = 15;
+
 function HomePage() {
-  // FIXME: fetch data
-  const loading = true;
+  const { loading, data } = useQuery(GET_POKEMONS_QUERY, {
+    variables: {
+      offset: 0,
+      limit: LIMIT,
+    },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const pokemons: Array<PokemonItemType> = useMemo(() => {
+    return (
+      data?.species?.map(({ id, name, pokemonTypes }: any) => ({
+        id,
+        name,
+        types:
+          (pokemonTypes &&
+            pokemonTypes[0].types?.map((item: any) => item.name)) ||
+          [],
+      })) || []
+    );
+  }, [data]);
 
   return (
     <React.Fragment>
@@ -21,16 +45,17 @@ function HomePage() {
           gap={6}
           templateColumns={{ base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)" }}
         >
-          {[...new Array(12)].map((_, id) =>
-            loading ? (
-              <Skeleton borderRadius="xl" height="56" />
-            ) : (
+          {loading ? (
+            <PokemonListSkeleton />
+          ) : (
+            pokemons.map((pokemon) => (
               <PokemonCard
-                id={String(id + 1)}
-                name="bulbasuer"
-                types={["grass", "fire"]}
+                id={pokemon.id}
+                key={pokemon.id}
+                name={pokemon.name}
+                types={pokemon.types}
               />
-            )
+            ))
           )}
         </Grid>
       </Container>
@@ -39,3 +64,13 @@ function HomePage() {
 }
 
 export default HomePage;
+
+function PokemonListSkeleton() {
+  return (
+    <>
+      {[...new Array(LIMIT)].map((_, i) => (
+        <Skeleton key={i} borderRadius="xl" height="56" />
+      ))}
+    </>
+  );
+}

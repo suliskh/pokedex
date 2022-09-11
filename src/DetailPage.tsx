@@ -49,7 +49,6 @@ function DetailPage() {
             name: item.name,
           })
         ) || [],
-      gender: { male: "0", female: "0" }, // TODO
       generationName: data?.species[0]?.generation?.names[0]?.name || "",
       height: data?.species[0]?.pokemons[0]?.height || "0",
       id: data?.species[0]?.pokemons[0]?.id || "",
@@ -145,12 +144,6 @@ function DetailPage() {
             </Heading>
             <Text color="gray.800">{pokemon.weight} kg</Text>
           </GridItem>
-          {/* <GridItem as="section" maxWidth="full">
-            <Heading as="h3" mb="1" size="sm">
-              Gender
-            </Heading>
-            <Text color="gray.800">Male (45%), Female (55%)</Text>
-          </GridItem> */}
           <GridItem as="section" maxWidth="full" colSpan={2}>
             <Heading as="h3" mb="1" size="sm">
               Abilities

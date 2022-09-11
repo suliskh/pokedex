@@ -3,7 +3,6 @@ export type PokemonType = {
   color: string;
   description: string;
   evolutions: Array<{ id: string; name: string }>;
-  gender: { male: string; female: string };
   generationName: string;
   height: string;
   id: string;

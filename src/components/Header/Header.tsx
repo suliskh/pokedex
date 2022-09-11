@@ -20,7 +20,7 @@ function Header() {
         <Heading as="h1" size="lg" color="teal">
           Pokédex
         </Heading>
-        <Button colorScheme="teal" rightIcon={<FaFilter />} size="sm">
+        <Button rightIcon={<FaFilter />} size="sm">
           Filter
         </Button>
       </Container>

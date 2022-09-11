@@ -58,9 +58,7 @@ function PokemonCard({
       {isNormalVariant && types && types.length > 0 && (
         <Stack direction="row">
           {types.map((typeName, i) => (
-            <Badge colorScheme="teal" key={i}>
-              {typeName}
-            </Badge>
+            <Badge key={i}>{typeName}</Badge>
           ))}
         </Stack>
       )}

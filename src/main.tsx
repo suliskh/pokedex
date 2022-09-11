@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import DetailPage from "./DetailPage";
 import HomePage from "./HomePage";
 import GraphQLProvider from "./providers/GraphQLProvider";
+import StyleProvider from "./providers/StyleProvider";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ChakraProvider>
+    <StyleProvider>
       <GraphQLProvider>
         <BrowserRouter>
           <Routes>
@@ -19,6 +19,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           </Routes>
         </BrowserRouter>
       </GraphQLProvider>
-    </ChakraProvider>
+    </StyleProvider>
   </React.StrictMode>
 );

@@ -44,7 +44,6 @@ function DetailPage() {
             <IconButton
               aria-label="Back to home"
               as={Link}
-              colorScheme="teal"
               icon={<FaArrowLeft />}
               position="absolute"
               top="0"
@@ -56,9 +55,7 @@ function DetailPage() {
           <Box mt="auto" w="full">
             <Stack direction="row" mb="2">
               {DUMMY_TYPES.map((typeName, i) => (
-                <Badge colorScheme="teal" key={i}>
-                  {typeName}
-                </Badge>
+                <Badge key={i}>{typeName}</Badge>
               ))}
             </Stack>
             <Heading
@@ -133,12 +130,7 @@ function DetailPage() {
                   <Text color="gray.800" fontSize="sm" fontWeight="bold" mb="1">
                     HP (65)
                   </Text>
-                  <Progress
-                    borderRadius="full"
-                    colorScheme="teal"
-                    height="2"
-                    value={20}
-                  />
+                  <Progress borderRadius="full" height="2" value={20} />
                 </GridItem>
               ))}
             </Grid>
@@ -196,7 +188,6 @@ function DetailPageSkeleton() {
             <IconButton
               aria-label="Back to home"
               as={Link}
-              colorScheme="teal"
               icon={<FaArrowLeft />}
               position="absolute"
               top="0"

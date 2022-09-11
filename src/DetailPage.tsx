@@ -29,7 +29,7 @@ import { PokemonType } from "./@types";
 function DetailPage() {
   const { name } = useParams();
   const navigate = useNavigate();
-  
+
   const { loading, data } = useQuery(GET_POKEMON_QUERY, {
     variables: { name },
   });
@@ -187,6 +187,7 @@ function DetailPage() {
               direction="row"
               divider={<Icon as={BsArrowRight} width="8" border="none" />}
               flexWrap="nowrap"
+              justifyContent="center"
               maxWidth="full"
               overflowX="auto"
               p="3"

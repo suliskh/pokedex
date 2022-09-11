@@ -190,7 +190,13 @@ function DetailPage() {
                   flexShrink={0}
                   height="auto"
                   key={evolution.id}
-                  width={32}
+                  width="20"
+                  justifyContent="center"
+                  sx={{
+                    "> *": {
+                      width: "full",
+                    },
+                  }}
                 >
                   <PokemonCard
                     id={evolution.id}

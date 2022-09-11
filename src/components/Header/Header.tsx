@@ -103,11 +103,13 @@ function Header() {
       <Drawer isOpen={isOpen} placement="bottom" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton />
           <form onSubmit={handleApply} method="POST">
-            <DrawerHeader>Filter</DrawerHeader>
+            <DrawerHeader maxWidth="container.sm" mx="auto" position="relative">
+              <DrawerCloseButton />
+              Filter
+            </DrawerHeader>
 
-            <DrawerBody>
+            <DrawerBody maxWidth="container.sm" mx="auto">
               <Box as="section" mb="8">
                 <Heading as="h3" mb="3" size="sm">
                   Types
@@ -157,7 +159,7 @@ function Header() {
               </Box>
             </DrawerBody>
 
-            <DrawerFooter>
+            <DrawerFooter maxWidth="container.sm" mx="auto">
               <Button variant="outline" mr={3} onClick={onClose} width="full">
                 Cancel
               </Button>

@@ -20,6 +20,7 @@ function HomePage() {
       limit: LIMIT,
       args: generateGetPokemonsQueryArgs({
         types: searchParams.getAll("types"),
+        generations: searchParams.getAll("generations"),
       }),
     },
     notifyOnNetworkStatusChange: true,
@@ -57,10 +58,10 @@ function HomePage() {
           gap={6}
           templateColumns={{ base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)" }}
         >
-          {pokemons.map((pokemon) => (
+          {pokemons.map((pokemon, i) => (
             <PokemonCard
               id={pokemon.id}
-              key={pokemon.id}
+              key={`${pokemon.id}-${i}`}
               name={pokemon.name}
               types={pokemon.types}
             />

@@ -61,7 +61,6 @@ function Header() {
     return { types, generations };
   }, [data]);
 
-  console.log(generations);
   const handleApply = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -144,15 +143,12 @@ function Header() {
                     rowGap="2"
                   >
                     {generations.map(({ label, value }) => (
-                      // <Checkbox
-                      //   key={value}
-                      //   name="generations"
-                      //   overflowWrap="anywhere"
-                      //   value={value}
-                      // >
-                      //   {label}
-                      // </Checkbox>
-                      <Checkbox key={value} name="generations" value={label}>
+                      <Checkbox
+                        key={value}
+                        name="generations"
+                        overflowWrap="anywhere"
+                        value={value}
+                      >
                         {label}
                       </Checkbox>
                     ))}

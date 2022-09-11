@@ -1,13 +1,22 @@
 import { gql } from "@apollo/client";
 
-export function generateGetPokemonsQueryArgs(args: { types: Array<string> }) {
-  if (args.types.length <= 0) {
+export function generateGetPokemonsQueryArgs(args: {
+  types: Array<string>;
+  generations: Array<string>;
+}) {
+  if (args.types.length <= 0 && args.generations.length <= 0) {
     return null;
   }
+
   return {
     pokemon_v2_pokemons: {
       pokemon_v2_pokemontypes: {
-        pokemon_v2_type: { name: { _in: args.types } },
+        pokemon_v2_type:
+          args.types.length > 0 ? { name: { _in: args.types } } : {},
+      },
+      pokemon_v2_pokemonspecy: {
+        pokemon_v2_generation:
+          args.generations.length > 0 ? { name: { _in: args.generations } } : {},
       },
     },
   };

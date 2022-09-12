@@ -135,3 +135,43 @@ export const GET_POKEMON_QUERY = gql`
     }
   }
 `;
+
+export const GET_POKEMONS_COMPARISON_QUERY = gql`
+  query GetPokemonsComparisonQuery($names: [String!]) {
+    species: pokemon_v2_pokemonspecies(where: { name: { _in: $names } }) {
+      pokemons: pokemon_v2_pokemons(
+        where: { name: { _in: $names } }
+        limit: 1
+      ) {
+        height
+        name
+        id
+        weight
+        types: pokemon_v2_pokemontypes {
+          pokemonType: pokemon_v2_type {
+            name
+          }
+        }
+        abilities: pokemon_v2_pokemonabilities {
+          ability: pokemon_v2_ability {
+            name
+          }
+        }
+        stats: pokemon_v2_pokemonstats(order_by: {id: asc}) {
+          stat: pokemon_v2_stat {
+            name
+            id
+          }
+          base_stat
+        }
+      }
+      generation: pokemon_v2_generation {
+        names: pokemon_v2_generationnames(
+          where: { pokemon_v2_language: { name: { _eq: "en" } } }
+        ) {
+          name
+        }
+      }
+    }
+  }
+`;

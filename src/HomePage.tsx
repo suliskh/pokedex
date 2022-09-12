@@ -4,6 +4,7 @@ import { Container, Grid, Heading, Skeleton } from "@chakra-ui/react";
 import { InView } from "react-intersection-observer";
 import { useSearchParams } from "react-router-dom";
 
+import CompareAction from "./components/CompareAction";
 import Header from "./components/Header/Header";
 import PokemonCard from "./components/PokemonCard";
 
@@ -52,7 +53,7 @@ function HomePage() {
     <React.Fragment>
       <Header />
 
-      <Container as="main" py="6">
+      <Container as="main" py="6" position="relative">
         <Heading textAlign="center" size="xs" mb="6">
           Showing {dataCount} Pokemons
         </Heading>
@@ -89,6 +90,7 @@ function HomePage() {
           }
         }}
       />
+      <CompareAction />
     </React.Fragment>
   );
 }

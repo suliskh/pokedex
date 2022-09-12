@@ -10,7 +10,6 @@ import {
   GridItem,
   Heading,
   Icon,
-  IconButton,
   Image,
   Progress,
   Skeleton,

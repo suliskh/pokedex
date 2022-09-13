@@ -1,10 +1,16 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useQuery } from "@apollo/client";
-import { Container, Grid, Heading, Skeleton } from "@chakra-ui/react";
+import {
+  CheckboxGroup,
+  Container,
+  Grid,
+  Heading,
+  Skeleton,
+} from "@chakra-ui/react";
 import { InView } from "react-intersection-observer";
 import { useSearchParams } from "react-router-dom";
 
-import CompareAction from "./components/CompareAction";
+import PokemonComparison from "./components/PokemonComparison";
 import Header from "./components/Header/Header";
 import PokemonCard from "./components/PokemonCard";
 
@@ -15,6 +21,22 @@ const LIMIT = 15;
 
 function HomePage() {
   const [searchParams] = useSearchParams();
+
+  const [selectedPokemons, setSelectedPokemons] = useState<
+    Array<Pick<PokemonType, "id" | "name">>
+  >([]);
+  const [isCompareMode, setIsCompareMode] = useState<boolean>(false);
+
+  const handleSelectedPokemonChanges = (values: Array<string>) => {
+    const newSelectedPokemons = values.map((value) => {
+      const [id, name] = value.split(",");
+
+      return { id, name };
+    });
+
+    setSelectedPokemons(newSelectedPokemons);
+  };
+
   const { loading, data, fetchMore } = useQuery(GET_POKEMONS_QUERY, {
     variables: {
       offset: 0,
@@ -58,21 +80,33 @@ function HomePage() {
           Showing {dataCount} Pokemons
         </Heading>
 
-        <Grid
-          gap={6}
-          templateColumns={{ base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)" }}
+        <CheckboxGroup
+          colorScheme="yellow"
+          onChange={handleSelectedPokemonChanges}
         >
-          {pokemons.map((pokemon, i) => (
-            <PokemonCard
-              id={pokemon.id}
-              key={`${pokemon.id}-${i}`}
-              name={pokemon.name}
-              types={pokemon.types}
-            />
-          ))}
+          <Grid
+            gap={6}
+            templateColumns={{ base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)" }}
+          >
+            {pokemons.map((pokemon, i) => (
+              <PokemonCard
+                id={pokemon.id}
+                isSelectable={isCompareMode}
+                key={`${pokemon.id}-${i}`}
+                name={pokemon.name}
+                types={pokemon.types}
+              />
+            ))}
 
-          {loading && <PokemonListSkeleton />}
-        </Grid>
+            {loading && <PokemonListSkeleton />}
+          </Grid>
+        </CheckboxGroup>
+
+        <PokemonComparison
+          pokemons={selectedPokemons}
+          onCancel={() => setIsCompareMode(false)}
+          onTrigger={() => setIsCompareMode(true)}
+        />
       </Container>
       <InView
         style={{ height: "1px" }}
@@ -90,7 +124,6 @@ function HomePage() {
           }
         }}
       />
-      <CompareAction />
     </React.Fragment>
   );
 }

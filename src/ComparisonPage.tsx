@@ -2,21 +2,22 @@ import { useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import { useSearchParams } from "react-router-dom";
 import {
+  Box,
   Container,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
+  Flex,
   Heading,
   Image,
-  Stack,
-  Box,
-  Flex,
-  Text,
+  Progress,
   Skeleton,
+  Stack,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
 
 import BackButton from "./components/BackButton";
@@ -74,14 +75,16 @@ function ComparisonPage() {
   const renderTableHeads = () =>
     pokemons.map((pokemon) => (
       <Th key={pokemon.id}>
-        <Box boxSize="20">
-          <Image
-            alt={pokemon.name}
-            fallbackSrc={PokemonFallbackImg}
-            src={getOfficialArtwork(pokemon.id)}
-          />
+        <Box display="inline-flex" flexDirection="column" alignItems="center">
+          <Box boxSize="20">
+            <Image
+              alt={pokemon.name}
+              fallbackSrc={PokemonFallbackImg}
+              src={getOfficialArtwork(pokemon.id)}
+            />
+          </Box>
+          <Text fontWeight="bold">{pokemon.name}</Text>
         </Box>
-        <Text fontWeight="bold">{pokemon.name}</Text>
       </Th>
     ));
 
@@ -102,11 +105,11 @@ function ComparisonPage() {
       <Container px="0">
         <TableContainer>
           <Table
-            variant="simple"
+            backgroundColor="gray.100"
+            border="0"
             maxWidth="full"
             overflowX="auto"
-            border="0"
-            backgroundColor="gray.100"
+            variant="simple"
           >
             {loading ? (
               <ComparionTableSkeleton
@@ -124,11 +127,10 @@ function ComparisonPage() {
                   <Tr bgColor="white">
                     <Td
                       bgColor="teal.50"
-                      borderRightColor="teal.100"
-                      borderRightWidth="1px"
                       fontWeight="bold"
                       left="0"
                       position="sticky"
+                      zIndex="10"
                     >
                       Types
                     </Td>
@@ -141,11 +143,10 @@ function ComparisonPage() {
                   <Tr bgColor="white">
                     <Td
                       bgColor="teal.50"
-                      borderRightColor="teal.100"
-                      borderRightWidth="1px"
                       fontWeight="bold"
                       left="0"
                       position="sticky"
+                      zIndex="10"
                     >
                       Generation
                     </Td>
@@ -156,11 +157,10 @@ function ComparisonPage() {
                   <Tr bgColor="white">
                     <Td
                       bgColor="teal.50"
-                      borderRightColor="teal.100"
-                      borderRightWidth="1px"
                       fontWeight="bold"
                       left="0"
                       position="sticky"
+                      zIndex="10"
                     >
                       Abilities
                     </Td>
@@ -173,11 +173,10 @@ function ComparisonPage() {
                   <Tr bgColor="white">
                     <Td
                       bgColor="teal.50"
-                      borderRightColor="teal.100"
-                      borderRightWidth="1px"
                       fontWeight="bold"
                       left="0"
                       position="sticky"
+                      zIndex="10"
                     >
                       Height
                     </Td>
@@ -188,11 +187,10 @@ function ComparisonPage() {
                   <Tr bgColor="white">
                     <Td
                       bgColor="teal.50"
-                      borderRightColor="teal.100"
-                      borderRightWidth="1px"
                       fontWeight="bold"
                       left="0"
                       position="sticky"
+                      zIndex="10"
                     >
                       Weight
                     </Td>
@@ -203,11 +201,10 @@ function ComparisonPage() {
                   <Tr bgColor="white">
                     <Td
                       bgColor="teal.50"
-                      borderRightColor="teal.100"
-                      borderRightWidth="1px"
                       fontWeight="bold"
                       left="0"
                       position="sticky"
+                      zIndex="10"
                     >
                       Stats
                     </Td>
@@ -215,13 +212,21 @@ function ComparisonPage() {
                       <Td key={id}>
                         <Stack direction="column">
                           {stats.map((stat) => (
-                            <Text
-                              key={stat.label}
-                              textTransform="uppercase"
-                              fontSize="sm"
-                            >
-                              {stat.label} <b>({stat.value})</b>
-                            </Text>
+                            <Box>
+                              <Text
+                                key={stat.label}
+                                textTransform="uppercase"
+                                fontSize="sm"
+                                mb="1"
+                              >
+                                {stat.label} <b>({stat.value})</b>
+                              </Text>
+                              <Progress
+                                borderRadius="full"
+                                height="2"
+                                value={20}
+                              />
+                            </Box>
                           ))}
                         </Stack>
                       </Td>

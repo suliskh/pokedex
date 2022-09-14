@@ -96,7 +96,7 @@ function CompareAction({ pokemons, onCancel, onTrigger }: CompareActionProps) {
                     />
                   ))}
                 </AvatarGroup>
-                {pokemons.length < 4 && (
+                {pokemons.length < 2 && (
                   <Text noOfLines={2} fontSize="sm">
                     Select 2 or more pokemons
                   </Text>
@@ -119,6 +119,7 @@ function CompareAction({ pokemons, onCancel, onTrigger }: CompareActionProps) {
                   size={{ base: "sm", sm: "md" }}
                   rounded="full"
                   flexGrow={1}
+                  isDisabled={pokemons.length < 2}
                   w={{ base: "full", sm: "auto" }}
                   onClick={handleSubmit}
                 >
